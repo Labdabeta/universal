@@ -1,0 +1,115 @@
+# C Lexical analyzer definition
+
+Digit is ['0 - '9];
+Letter is ['a - 'z] | ['A - 'Z] | '_;
+HexDigit is ['a-'f] | ['A - 'F] | ['0 - '9];
+FloatSuffix is 'f | 'F | 'l | 'L;
+IntegerSuffix is ('u | 'U | 'l | 'L)*;
+
+Exponent is ('E | 'e)('+ | '-)? Digit+;
+
+AllButSlash is [^'/] | EOL;
+AllButStarOrSlash is [^'/'*] | EOL;
+CommentStart is "/*";
+CommentEnd is "*/";
+
+Comment is valid
+    CommentStart '/* (AllButSlash | AllButStarOrSlash '/+)* CommentEnd;
+
+# Valid tokens are matched with first in file = higher priority
+# So keywords should usually be above identifiers
+AutoKeyword is valid "auto";
+BreakKeyword is valid "break";
+CaseKeyword is valid "case";
+CharKeyword is valid "char";
+ConstKeyword is valid "const";
+ContinueKeyword is valid "continue";
+DefaultKeyword is valid "default";
+DoKeyword is valid "do";
+DoubleKeyword is valid "double";
+ElseKeyword is valid "else";
+EnumKeyword is valid "enum";
+ExternKeyword is valid "extern";
+FloatKeyword is valid "float";
+ForKeyword is valid "for";
+GotoKeyword is valid "goto";
+IfKeyword is valid "if";
+IntKeyword is valid "int";
+LongKeyword is valid "long";
+RegisterKeyword is valid "register";
+ReturnKeyword is valid "return";
+ShortKeyword is valid "short";
+SignedKeyword is valid "signed";
+SizeofKeyword is valid "sizeof";
+StaticKeyword is valid "static";
+StructKeyword is valid "struct";
+SwitchKeyword is valid "switch";
+TypedefKeyword is valid "typedef";
+UnionKeyword is valid "union";
+UnsignedKeyword is valid "unsigned";
+VoidKeyword is valid "void";
+VolatileKeyword is valid "volatile";
+WhileKeyword is valid "while";
+
+Identifier is valid Letter (Letter | Digit)*;
+
+IntLiteral is valid
+    '0['x'X] HexDigit+ IntegerSuffix? |
+    '0 Digit+ IntegerSuffix? |
+    Digit+ IntegerSuffix?;
+
+CharLiteral is valid Letter? '' ('\. | [^'\''])+ '';
+
+FloatLiteral is valid
+    Digit+ Exponent FloatSuffix? |
+    Digit* '. Digit+ Exponent? FloatSuffix? |
+    Digit+ '. Digit* Exponent? FloatSuffix?;
+
+StringLiteral is valid Letter? '" ('\. | [^'\'"])* '";
+
+Ellipsis is valid "...";
+RightAssign is valid ">>=";
+LeftAssign is valid "<<=";
+AddAssign is valid "+=";
+SubAssign is valid "-=";
+MulAssign is valid "*=";
+DivAssign is valid "/=";
+ModAssign is valid "%=";
+AndAssign is valid "&=";
+XorAssign is valid "^=";
+OrAssign is valid "|=";
+RightOperator is valid ">>";
+LeftOperator is valid "<<";
+IncOperator is valid "++";
+DecOperator is valid "--";
+PtrOperator is valid "->";
+LogicalAndOperator is valid "&&";
+LogicalOrOperator is valid "||";
+LessEqualOperator is valid "<=";
+GreaterEqualOperator is valid ">=";
+EqualOperator is valid "==";
+NotEqualOperator is valid "!=";
+Semicolon is valid ';;
+Begin is valid '{ | "<%";
+End is valid '} | "%>";
+Comma is valid ',;
+Colon is valid ':;
+Assign is valid '=;
+Open is valid '(;
+Close is valid ');
+SquareOpen is valid '[ | "<:";
+SquareClose is valid '] | ":>";
+Dot is valid '.;
+AndOperator is valid '&;
+LogicalNotOperator is valid '!;
+NotOperator is valid '~;
+SubOperator is valid '-;
+AddOperator is valid '+;
+MulOperator is valid '*;
+DivOperator is valid '/;
+ModOperator is valid '%;
+LessOperator is valid '<;
+GreaterOperator is valid '>;
+XorOperator is valid '^;
+OrOperator is valid '|;
+QuestionMark is valid '?;
